@@ -1,0 +1,39 @@
+<!-- course-pathways.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Course Pathways</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Course Pathways</h2>
+        <div id="course-pathways"></div>
+    </div>
+
+    <script>
+        const coursePaths = [
+            { course: 'Introduction to Programming', duration: '3 months', modules: ['Basics', 'Control Flow', 'Data Structures'] },
+            { course: 'Data Science', duration: '6 months', modules: ['Statistics', 'Machine Learning', 'Data Visualization'] }
+        ];
+
+        const displayCoursePaths = () => {
+            const container = document.getElementById('course-pathways');
+            coursePaths.forEach((course) => {
+                const courseBox = document.createElement('div');
+                courseBox.classList.add('course-box');
+                courseBox.innerHTML = `
+                    <h3>${course.course} - ${course.duration}</h3>
+                    <ul>
+                        ${course.modules.map(module => `<li>${module}</li>`).join('')}
+                    </ul>
+                `;
+                container.appendChild(courseBox);
+            });
+        };
+
+        window.onload = displayCoursePaths;
+    </script>
+</body>
+</html>

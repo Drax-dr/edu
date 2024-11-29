@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parent Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <button class="back-btn" onclick="goBack()">Back</button>
+            <p id="welcomeMessage"></p>
+            <button class="home-btn" onclick="goHome()">Home</button>
+        </header>
+        <div class="profile-section">
+            <img src="parent_final.jpg" alt="Profile" class="profile-pic">
+            <div class="profile-info">
+                <h2>Profile</h2>
+                <p id="profileName">Name: </p>
+                <p id="profileStudentName">Student Name: </p>
+                <p id="profileGrade">Grade Level: </p>
+                <p id="profileInterests">Interests: </p>
+                <p id="profileAptitudes">Aptitudes: </p>
+                <h3>Recent Activities</h3>
+                <div id="recentActivities"></div>
+            </div>
+        </div>
+        <div class="nav-buttons">
+            <button onclick="showAcademicProgress()">Academic Progress</button>
+            <button onclick="showUpcomingAssignments()">Upcoming Assignments</button>
+            <button onclick="showLearningPath()">Learning Path</button>
+            <button onclick="showSkills()">Skills</button>
+            <button onclick="showCareerGuidance()">Career Guidance</button>
+            <button onclick="showMessages()">Messages</button>
+            <button onclick="showPendings()">Pendings</button>
+        </div>
+        <div id="content"></div>
+    </div>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const userId = urlParams.get('id');
+        const userData = JSON.parse(localStorage.getItem(`parent-${userId}`));
+
+        if (userData) {
+            document.getElementById('welcomeMessage').innerText = `Welcome, ${userData.name}`;
+            document.getElementById('profileName').innerText += userData.name;
+            document.getElementById('profileStudentName').innerText += userData.studentName;
+            document.getElementById('profileGrade').innerText += userData.grade;
+            document.getElementById('profileInterests').innerText += userData.interests.join(', ');
+            document.getElementById('profileAptitudes').innerText += userData.aptitudes.join(', ');
+            userData.recentActivities.forEach(activity => {
+                const activityEntry = document.createElement('p');
+                activityEntry.innerText = `${activity.date} - ${activity.description}`;
+                document.getElementById('recentActivities').appendChild(activityEntry);
+            });
+        } else {
+            alert('User data not found.');
+        }
+
+        function goBack() {
+            window.location.href = 'home.html';
+        }
+
+        function goHome() {
+            window.location.href = 'index.html';
+        }
+
+        function showAcademicProgress() {
+            document.getElementById('content').innerHTML = '<h3>Academic Progress</h3><p>Details about academic progress...</p>';
+        }
+
+        function showUpcomingAssignments() {
+            document.getElementById('content').innerHTML = '<h3>Upcoming Assignments</h3><p>Details about upcoming assignments...</p>';
+        }
+
+        function showLearningPath() {
+            document.getElementById('content').innerHTML = '<h3>Learning Path</h3><p>Details about learning path...</p>';
+        }
+
+        function showSkills() {
+            document.getElementById('content').innerHTML = '<h3>Skill Development</h3><p>Details about skill development...</p>';
+        }
+
+        function showCareerGuidance() {
+            document.getElementById('content').innerHTML = '<h3>Career Guidance</h3><p>Details about career guidance...</p>';
+        }
+
+        function showMessages() {
+            document.getElementById('content').innerHTML = '<h3>Messages</h3><p>Details about messages...</p>';
+        }
+
+        function showPendings() {
+            document.getElementById('content').innerHTML = '<h3>Pendings</h3><p>Details about pendings...</ p>';
+        }
+    </script>
+</body>
+</html>

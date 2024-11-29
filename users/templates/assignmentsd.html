@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LMS Portal - Enrolled Courses</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #181818; /* Dark background */
+            color: #fff; /* White text color */
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            background: #282828; /* Darker container background */
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #4CAF50; /* Green color for headings */
+        }
+        .section {
+            margin: 20px 0;
+        }
+        .section h2 {
+            color: #4CAF50; /* Green color for subheadings */
+            margin-bottom: 10px;
+        }
+        .course-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .course-list li {
+            background: #444; /* Dark background for list items */
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        .course-list li:hover {
+            background: #555; /* Darker on hover */
+        }
+        .back-button {
+            margin: 20px 0;
+            padding: 10px 15px;
+            background: #4CAF50; /* Green background */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .back-button:hover {
+            background: #45a049; /* Darker green on hover */
+        }
+        .progress {
+            margin-top: 10px;
+            font-weight: bold;
+            color: #fff; /* Set text color to white */
+        }
+        .resources {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        .resources a {
+            color: #4CAF50;
+            text-decoration: none;
+        }
+        .notes {
+            margin-top: 20px;
+            padding: 15px;
+            background: #444;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>LMS Portal - Enrolled Courses</h1>
+
+    <!-- Courses Section -->
+    <div class="section">
+        <h2>Your Enrolled Courses</h2>
+        <ul class="course-list">
+            <li>
+                <strong>C Language</strong>
+                <div class="progress">75% completed</div>
+                <div class="resources">
+                    <strong>Resources:</strong>
+                    <ul>
+                        <li><a href="c-resources.pdf" target="_blank">Chapter 1: Introduction to C Programming</a></li>
+                        <li><a href="c-examples.zip" target="_blank">Chapter 2: Functions in C</a></li>
+                    </ul>
+                </div>
+                <button onclick="viewCourse('c-modules.html')">View Course</button>
+                <button onclick="continueCourse('lms-1.mp4')">Continue Course</button>
+            </li>
+            <li>
+                <strong>Python</strong>
+                <div class="progress">60% completed</div>
+                <div class="resources">
+                    <strong>Resources:</strong>
+                    <ul>
+                        <li><a href="python-resources.pdf" target="_blank">Chapter 2: Operators in Python</a></li>
+                        <li><a href="python-examples.zip" target="_blank">Chapter 3: Modules in Python</a></li>
+                    </ul>
+                </div>
+                <button onclick="viewCourse('python-modules.html')">View Course</button>
+                <button onclick="continueCourse('lms-2.mp4')">Continue Course</button>
+            </li>
+            <li>
+                <strong>Java</strong>
+                <div class="progress">80% completed</div>
+                <div class="resources">
+                    <strong>Resources:</strong>
+                    <ul>
+                        <li><a href="java-resources.pdf" target="_blank">Chapter 3: Methods in Java</a></li>
+                        <li><a href="java-examples.zip" target="_blank">Chapter 4: Exception Handling</a></li>
+                    </ul>
+                </div>
+                <button onclick="viewCourse('java-modules.html')">View Course</button>
+                <button onclick="continueCourse('lms-3.mp4')">Continue Course</button>
+            </li>
+            <li>
+                <strong>Flutter</strong>
+                <div class="progress">90% completed</div>
+                <div class="resources">
+                    <strong>Resources:</strong>
+                    <ul>
+                        <li><a href="flutter-resources.pdf" target="_blank">Chapter 2: Dart Basics</a></li>
+                        <li><a href="flutter-examples.zip" target="_blank">Chapter 3: Layouts and Navigation</a></li>
+                    </ul>
+                </div>
+                <button onclick="viewCourse('flutter-modules.html')">View Course</button>
+                <button onclick="continueCourse('lms-4.mp4')">Continue Course</button>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Course Notes Section -->
+    <div class="section notes">
+        <h2>Available Course Notes</h2>
+        <ul>
+            <li><a href="c-notes.pdf" target="_blank">C Language Notes</a></li>
+            <li><a href="python-notes.pdf" target="_blank">Python Notes</a></li>
+            <li><a href="java-notes.pdf" target="_blank">Java Notes</a></li>
+            <li><a href="flutter-notes.pdf" target="_blank">Flutter Notes</a></li>
+        </ul>
+    </div>
+
+    <button class="back-button" onclick="goBack()">Back</button>
+</div>
+
+<script>
+    function goBack() {
+        window.ocation.href = 'student-dashboard.html'; // Change this to your desired back page
+    }
+
+    function continueCourse(video) {
+        window.location.href = video; // Assuming the video files are in the same directory
+    }
+
+    function viewCourse(course) {
+        window.location.href = course; // Redirects to course modules page
+    }
+</script>
+
+</body>
+</html>

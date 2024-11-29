@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EDU-Bright Path - Subject Assignments</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        header {
+            background: #1f1f1f;
+            color: #f0f0f0;
+            padding: 15px 0;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(255, 255, 255, 0.1);
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        nav ul li {
+            display: inline;
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            color: #4CAF50;
+            text-decoration: none;
+        }
+
+        nav ul li a:hover {
+            text-decoration: underline;
+        }
+
+        main {
+            margin-top: 20px;
+            background: #1f1f1f;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+        }
+
+        h1, h2 {
+            color: #4CAF50;
+        }
+
+        .question {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #444;
+            border-radius: 5px;
+            background: #282828;
+        }
+
+        button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #45a049;
+        }
+
+        .suggestion {
+            margin-top: 20px;
+            font-weight: bold;
+            background: #333;
+            padding: 10px;
+            border-left: 5px solid #4CAF50;
+        }
+
+        footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 0.8em;
+            color: #777;
+        }
+
+        .feedback, .course-path {
+            margin-top: 20px;
+            background: #222;
+            padding: 10px;
+            border: 1px solid #555;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>EDU-Bright Path - Subject Assignments</h1>
+    <nav>
+        <ul>
+            <li><a href="#home" onclick="showPage('home')">Home</a></li>
+            <li><a href="#english" onclick="showPage('english')">English</a></li>
+            <li><a href="#math" onclick="showPage('math')">Math</a></li>
+            <li><a href="#c" onclick="showPage('c')">C</a></li>
+            <li><a href="#python" onclick="showPage('python')">Python</a></li>
+            <li><a href="#results" onclick="showPage('results')">Results</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main id="main-content">
+    <div id="home" class="page">
+        <h2>Welcome to the Subject Learning System</h2>
+        <p>Select a subject assignment to start!</p>
+    </div>
+
+    <div id="english" class="page" style="display:none;">
+        <h1>Assignment 1: English Questions</h1>
+        <form id="english-form">
+            <div class="question">
+                <label>1. What is the synonym of "happy"?</label><br>
+                <input type="radio" name="q1" value="Sad"> Sad<br>
+                <input type="radio" name="q1" value="Joyful"> Joyful<br>
+                <input type="radio" name="q1" value="Angry"> Angry<br>
+            </div>
+            <div class="question">
+                <label>2. Choose the correct form: "She ___ to school every day."</label><br>
+                <input type="radio" name="q2" value="go"> go<br>
+                <input type="radio" name="q2" value="goes"> goes<br>
+                <input type="radio" name="q2" value="going"> going<br>
+            </div>
+            <div class="question">
+                <label>3. What is the past tense of "run"?</label><br>
+                <input type="radio" name="q3" value="runned"> runned<br>
+                <input type="radio" name="q3" value="ran"> ran<br>
+                <input type="radio" name="q3" value="running"> running<br>
+            </div>
+            <div class="question">
+                <label>4. Choose the correct preposition: "The cat is ___ the table."</label><br>
+                <input type="radio" name="q4" value="on"> on<br>
+                <input type="radio" name="q4" value="in"> in<br>
+                <input type="radio" name="q4" value="at"> at<br>
+            </div>
+            <button type="button" onclick="submitAssignment('english')">Submit</button>
+        </form>
+        <div id="suggestion1" class="suggestion"></div>
+    </div>
+
+    <div id="math" class="page" style="display:none;">
+        <h1>Assignment 2: Math Questions</h1>
+        <form id="math-form">
+            <div class="question">
+                <label>1. What is 5 + 7?</label><br>
+                <input type="radio" name="q1" value="10"> 10<br>
+                <input type="radio" name="q1" value="12"> 12<br>
+                <input type="radio" name="q1" value="13"> 13<br>
+            </div>
+            <div class="question">
+                <label>2. What is the square root of 16?</label><br>
+                <input type="radio" name="q2" value="2"> 2<br>
+                <input type="radio" name="q2" value="4"> 4<br>
+                <input type="radio" name="q2" value="8"> 8<br>
+            </div>
+            <div class="question">
+                <label>3. What is 15 - 9?</label><br>
+                <input type="radio" name="q3" value="4"> 4<br>
+                <input type="radio" name="q3" value="5"> 5<br>
+                <input type="radio" name="q3" value="6"> 6<br>
+            </div>
+            <div class="question">
+                <label>4. What is 3 × 6?</label><br>
+                <input type="radio" name="q4" value="18"> 18<br>
+                <input type="radio" name="q4" value="20"> 20<br>
+                <input type="radio" name="q4" value="24"> 24<br>
+            </div>
+            <button type="button" onclick="submitAssignment('math')">Submit</button>
+        </form>
+        <div id="suggestion2" class="suggestion"></div>
+    </div>
+
+    <div id="c" class="page" style="display:none;">
+        <h1>Assignment 3: C Questions</h1>
+        <form id="c-form">
+            <div class="question">
+                <label>1. What is the correct way to declare a variable in C?</label><br>
+                <input type="radio" name="q1" value="int x;"> int x;<br>
+                <input type="radio" name="q1" value="variable x;"> variable x;<br>
+                <input type="radio" name="q1" value="x int;"> x int;<br>
+            </div>
+            <div class="question">
+                <label>2. What is the output of printf("%d", 5 + 3);?</label><br>
+                <input type="radio" name="q2" value="5"> 5<br>
+                <input type="radio" name="q2" value="8"> 8<br>
+                <input type="radio" name="q2" value="Error"> Error<br>
+            </div>
+            <div class="question">
+                <label>3. Which of the following is a loop structure in C?</label><br>
+                <input type="radio" name="q3" value="if"> if<br>
+                <input type="radio" name="q3" value="while"> while<br>
+                <input type="radio" name="q3" value="switch"> switch<br>
+            </div>
+            <div class="question">
+                <label>4. How do you comment in C?</label><br>
+                <input type="radio" name="q4" value="// comment"> // comment<br>
+                <input type="radio" name="q4" value="/* comment */"> /* comment */<br>
+                <input type="radio" name="q4" value="<!-- comment -->"> <!-- comment --> <br>
+            </div>
+            <button type="button" onclick="submitAssignment('c')">Submit</button>
+        </form>
+        <div id="suggestion3" class="suggestion"></div>
+    </div>
+
+    <div id="python" class="page" style="display:none;">
+        <h1>Assignment 4: Python Questions</h1>
+        <form id="python-form">
+            <div class="question">
+                <label>1. What is the correct syntax to output "Hello World" in Python?</label><br>
+                <input type="radio" name="q1" value="print('Hello World')"> print('Hello World')<br>
+                <input type="radio" name="q1" value="echo 'Hello World'"> echo 'Hello World'<br>
+                <input type="radio" name="q1" value="printf('Hello World')"> printf('Hello World')<br>
+            </div>
+            <div class="question">
+                <label>2. How do you create a list in Python?</label><br>
+                <input type="radio" name="q2" value="[]"> []<br>
+                <input type="radio" name="q2" value="{}"> {}<br>
+                <input type="radio" name="q2" value="()"> ()<br>
+            </div>
+            <div class="question">
+                <label>3. Which of the following is a valid variable name?</label><br>
+                <input type="radio" name="q3" value="1st_variable"> 1st_variable<br>
+                <input type="radio" name="q3" value="_firstVariable"> _firstVariable<br>
+                <input type="radio" name="q3" value="first-variable"> first-variable<br>
+            </div>
+            <div class="question">
+                <label>4. How do you start a function definition in Python?</label><br>
+                <input type="radio" name="q4" value="function myFunction():"> function myFunction():<br>
+                <input type="radio" name="q4" value="def myFunction():"> def myFunction():<br>
+                <input type="radio" name="q4" value="func myFunction():"> func myFunction():<br>
+            </div>
+            <button type="button" onclick="submitAssignment('python')">Submit</button>
+        </form>
+        <div id="suggestion4" class="suggestion"></div>
+    </div>
+
+    <div id="results" class="page" style="display:none;">
+        <h2>Your Results</h2>
+        <div id="result-content"></div>
+        <div id="strengths" class="suggestion"></div>
+        <div id="weaknesses" class="suggestion"></div>
+        <div id="focus-suggestions" class="suggestion"></div>
+        <div id="career-guidance" class="career-guidance"></div>
+        <div id="detailed-feedback" class="feedback"></div>
+        <div id="course-path" class="course-path"></div>
+    </div>
+</main>
+
+<footer>
+    <p>&copy; 2024 EDU-Bright Path. All Rights Reserved.</p>
+</footer>
+
+<script>
+    let totalScore = 0;
+    let totalAssignments = 0;
+    let categoryScores = { English: 0, Math: 0, C: 0, Python: 0 };
+    const assignmentAnswers = {
+        english: ['Joyful', 'goes', 'ran', 'on'],
+        math: [12, 4, 6, 18],
+        c: ['int x;', 8, 'while', '// comment'],
+        python: ["print('Hello World')", '[]', '_firstVariable', 'def myFunction():']
+    };
+
+    function showPage(page) {
+        const pages = document.querySelectorAll('.page');
+        pages.forEach(p => p.style.display = 'none');
+        document.getElementById(page).style.display = 'block';
+    }
+
+    function submitAssignment(assignment) {
+        const form = document.getElementById(assignment + '-form');
+        const userAnswers = Array.from(form.elements)
+            .filter(input => input.checked)
+            .map(input => input.value);
+
+        let score = 0;
+        let feedback = '';
+        userAnswers.forEach((answer, index) => {
+            const correctAnswer = assignmentAnswers[assignment][index];
+            if (answer === correctAnswer) {
+                score++;
+                feedback += `<p>Question ${index + 1}: Correct! Your answer: ${answer}</p>`;
+            } else {
+                feedback += `<p>Question ${index + 1}: Incorrect. Your answer: ${answer}, Correct answer: ${correctAnswer}</p>`;
+            }
+        });
+
+        totalScore += score;
+        totalAssignments++;
+
+        categoryScores[assignment.charAt(0).toUpperCase() + assignment.slice(1)] += score;
+
+        showPage('results');
+        displayResults(score, feedback, assignment);
+    }
+
+    function displayResults(score, feedback, assignment) {
+        document.getElementById('result-content').innerHTML = `Total Score: ${totalScore} / ${totalAssignments * 4}`;
+        document.getElementById('strengths').innerHTML = `Strengths: ${getStrengths(categoryScores)}`;
+        document.getElementById('weaknesses').innerHTML = `Weaknesses: ${getWeaknesses(categoryScores)}`;
+        document.getElementById('focus-suggestions').innerHTML = `Focus on: ${getFocusSuggestions(categoryScores)}`;
+        document.getElementById('career-guidance').innerHTML = getCareerGuidance(categoryScores);
+        document.getElementById('detailed-feedback').innerHTML = feedback;
+        document.getElementById('course-path').innerHTML = getCoursePath(categoryScores);
+    }
+
+    function getStrengths(scores) {
+        const subjects = ['English', 'Math', 'C', 'Python'];
+        return subjects.filter(subject => scores[subject] >= 3).join(', ') || 'None';
+    }
+
+    function getWeaknesses(scores) {
+        const subjects = ['English', 'Math', 'C', 'Python'];
+        return subjects.filter(subject => scores[subject] < 2).join(', ') || 'None';
+    }
+
+    function getFocusSuggestions(scores) {
+        const suggestions = [];
+        if (scores.English < 2) suggestions.push('English');
+        if (scores.Math < 2) suggestions.push('Math');
+        if (scores.C < 2) suggestions.push('C');
+        if (scores.Python < 2) suggestions.push('Python');
+        return suggestions.length ? suggestions.join(', ') : 'None';
+    }
+
+    function getCareerGuidance(scores) {
+        let guidance = '';
+        if (scores.English >= 3) {
+            guidance += 'Consider a career in Translation or Teaching English.<br>';
+        } else {
+            guidance += 'Explore foundational roles in English communication.<br>';
+        }
+
+        if (scores.Math >= 3) {
+            guidance += 'Consider a career in Data Science or Engineering.<br>';
+        } else {
+            guidance += 'Explore roles in Administration or Retail.<br>';
+        }
+
+        if (scores.C >= 3) {
+            guidance += 'Consider a career in Software Development or Systems Engineering.<br>';
+        } else {
+            guidance += 'Explore roles in Technical Support or IT Assistance.<br>';
+        }
+
+        if (scores.Python >= 3) {
+            guidance += 'Consider a career in Machine Learning or Data Analysis.<br>';
+        } else {
+            guidance += 'Explore roles in Web Development or Automation.<br>';
+        }
+
+        return guidance;
+    }
+
+    function getCoursePath(scores) {
+        let courses = '<h3>Recommended Courses:</h3>';
+        if (scores.English < 2) {
+            courses += '<p>- English Grammar and Composition</p>';
+            courses += '<p>- Advanced Vocabulary Development</p>';
+        }
+        if (scores.Math < 2) {
+            courses += '<p>- Basic Algebra</p>';
+            courses += '<p>- Introduction to Geometry</p>';
+        }
+        if (scores.C < 2) {
+            courses += '<p>- Introduction to C Programming</p>';
+            courses += '<p>- Data Structures in C</p>';
+        }
+        if (scores.Python < 2) {
+            courses += '<p>- Introduction to Python Programming</p>';
+            courses += '<p>- Python for Data Science</p>';
+        }
+        return courses || '<p>No additional courses recommended.</p>';
+    }
+</script>
+
+</body>
+</html>

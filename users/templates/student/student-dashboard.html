@@ -1,0 +1,604 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Dashboard</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+    
+    <style>
+        html {
+            scroll-behavior: smooth; /* Smooth scrolling */
+        }
+        body {
+
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+                margin: 0;
+                padding: 0;
+                color: #333;
+                overflow: hidden;
+                background: #e0f7fa; /* Soft light background */
+                overflow-x: hidden;
+            /* background-color: #e0f7fa; */
+        }
+        @keyframes gradient {
+                0% {
+                    background-position: 0% 50%;
+                }
+                50% {
+                    background-position: 100% 50%;
+                }
+                100% {
+                    background-position: 0% 50%;
+                }
+            }
+            header {
+                background-color: rgba(0, 150, 136, 0.9);
+                color: white;
+                padding: 15px 20px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                position: sticky;
+                top: 0;
+                z-index: 1000;
+            }
+
+            nav ul {
+                list-style: none;
+                padding: 0;
+                display: flex;
+            }
+
+            nav ul li {
+                margin: 0 15px;
+            }
+
+            nav ul li a {
+                color: white;
+                text-decoration: none;
+                font-weight: bold;
+                transition: color 0.3s;
+            }
+
+            nav ul li a:hover {
+                color: #ffeb3b;
+            }
+        .containerd {
+            width: 100%;
+            max-width: 1200px;
+            background: #282828; /* Darker container background */
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            padding: 20px;
+        }
+        .h1 {
+            text-align: center;
+            color: #4CAF50; /* Green color for headings */
+        }
+        .section {
+            margin: 20px 0;
+        }
+        .section h2 {
+            color: #4CAF50; /* Green color for subheadings */
+            margin-bottom: 10px;
+        }
+        .course-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .course-list li {
+            background: #444; /* Dark background for list items */
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        .course-list li:hover {
+            background: #555; /* Darker on hover */
+        }
+        .back-button {
+            margin: 20px 0;
+            padding: 10px 15px;
+            background: #4CAF50; /* Green background */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .back-button:hover {
+            background: #45a049; /* Darker green on hover */
+        }
+        .progress {
+            margin-top: 10px;
+            font-weight: bold;
+            color: #fff; /* Set text color to white */
+        }
+        .resources {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        .resources a {
+            color: #4CAF50;
+            text-decoration: none;
+        }
+        .notes {
+            margin-top: 20px;
+            padding: 15px;
+            background: #444;
+            border-radius: 5px;
+        }
+        /* General Popup Styles */
+        .popup {
+            display: none; /* Initially hidden */
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgb(0, 0, 0);
+            border: 2px solid #999999;
+            padding: 20px;
+            width: 80%;
+            max-width: 800px;
+            z-index: 1001;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        /* Overlay */
+        .overlay {
+            display: none; /* Initially hidden */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        /* Active state for showing the popup */
+        .active {
+            display: block;
+        }
+
+        /* Additional button styles */
+        .close-btn {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: rgb(0, 0, 0);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .close-btn:hover {
+            background-color: #0056b3;
+        }
+        .learningpath {
+            display: grid;
+        }
+        /* img {
+            width: 50%;
+            height: 50%;
+
+        } */
+       /* Layout for the buttons */
+/* Layout for the buttons */
+
+
+/* Nav Buttons Container */
+/* Layout for the buttons */
+.nav-buttons {
+    display: flex;
+    gap: 20px; /* Space between cards */
+    justify-content: center; /* Center the cards */
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+}
+
+/* Card styling */
+.card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 200px; /* Increased card width */
+    height: 240px; /* Increased card height */
+    padding: 15px; /* Adjust padding */
+    border: 1px solid #ddd; /* Card border */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Light shadow */
+    background-color: #fff; /* White background */
+    transition: transform 0.3s, box-shadow 0.3s; /* Smooth transitions */
+    text-align: center; /* Center-align content inside */
+}
+
+/* Hover effect for card */
+.card:hover {
+    transform: translateY(-10px); /* Lift card */
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); /* Stronger shadow */
+    border-color: #007bff; /* Change border color */
+}
+
+/* Image styling */
+.nav-icon {
+    width: 100%; /* Make image fill the card width */
+    height: auto; /* Maintain aspect ratio */
+    max-height: 180px; /* Increased height for better visibility */
+    object-fit: cover; /* Ensure image covers the space for better visibility */
+    transition: transform 0.3s; /* Smooth scaling effect */
+}
+
+/* Hover effect for image */
+.card:hover .nav-icon {
+    transform: scale(1.2); /* Enlarge image more on hover */
+}
+
+/* Text styling */
+span {
+    font-size: 16px; /* Slightly larger text for better readability */
+    font-weight: 600; /* Bold text */
+    color: #333; /* Dark text color */
+    margin-top: 10px; /* Space between image and text */
+    word-wrap: break-word; /* Handle long text gracefully */
+}
+
+
+
+/* Profile section layout */
+.profile-section {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between; /* Add spacing between image and text */
+    margin: 40px auto; /* Center the section with larger margins */
+    padding: 30px; /* Increase padding for better spacing */
+    max-width: 800px; /* Set a max width for responsiveness */
+    background-color: #140958; /* Light gray background for better contrast */
+    border: 1px solid #efbf04; /* Subtle border */
+    border-radius: 15px; /* Rounded corners */
+    border-width: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow */
+}
+
+/* Profile picture styling */
+.profile-pic {
+    width: 150px; /* Larger image */
+    height: 150px; /* Maintain aspect ratio */
+    border-radius: 50%; /* Circular image */
+    border: 3px solid #efbf04; /* Add a border for focus */
+    object-fit: cover; /* Ensure the image scales without distortion */
+    margin-right: 20px; /* Space between image and text */
+    border-width: 10px;
+}
+
+/* Profile info styling */
+.profile-info {
+    flex: 1; /* Allow the text to take the remaining space */
+}
+
+/* Profile name styling */
+.profile-info h2 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #000;
+    margin-bottom: 10px; /* Space below the name */
+}
+
+/* Profile details styling */
+.profile-info p {
+    font-size: 18px; /* Slightly larger text for readability */
+    color: #555; /* Medium gray text for subtler look */
+    margin-bottom: 8px; /* Space between lines */
+    line-height: 1.6; /* Add line spacing for readability */
+}
+
+/* Hover effect for profile section */
+.profile-section:hover {
+    transform: scale(1.02); /* Slight enlargement on hover */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* Stronger shadow */
+    transition: transform 0.3s, box-shadow 0.3s; /* Smooth transition effects */
+}
+
+/* Card styling */
+.card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    background: #ffffff;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    width: 250px; /* Increased width */
+    height: 300px; /* Increased height */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+
+.nav-icon {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures the image fills the container without distortion */
+    transition: transform 0.3s ease;
+}
+
+.image-container:hover .nav-icon {
+    transform: scale(1.05); /* Slight zoom effect */
+}
+
+.button-box {
+    width: 100%;
+    background: #7289da;
+    border-top: 2px solid #ccc; /* Visible separation from the image */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    box-sizing: border-box; /* Ensures padding doesn't exceed card size */
+}
+
+.btn-fit {
+    background: #009688;
+    color: white;
+    border: none;
+    font-size: 16px; /* Slightly larger font */
+    font-weight: bold;
+    text-align: center;
+    padding: 10px 20px; /* Adjusted padding for larger button */
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    width: 90%; /* Fits within the button box */
+}
+
+.btn-fit:hover {
+    background: #005a4d;
+}
+
+
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <!-- <li><a href="#">About</a></li> -->
+                <!-- <li><a href="#">Contact</a></li> -->
+            </ul>
+        </nav>
+        <button class="settings-button">Logout</button>
+    </header>
+    <div class="container">
+        <!-- <header class="header">
+            <a href="{% url 'home' %}" class="back-btn">Back</a>
+            <p id="welcomeMessage"></p>
+            <a href="{% url 'home' %}" class="home-btn">Home</a>
+        </header> -->
+
+        <div class="profile-section">
+            <img src="{% static 'images/pic.jpg' %}" alt="Profile" class="profile-pic" />
+            <div class="profile-info">
+                <h2>Profile</h2>
+                <p id="profileName">Name: Raj Kumar</p>
+                <p id="profileGrade">Grade Level: 12TH</p>
+                <p id="profileInterests">Interests: Python, C, Java</p>
+                <p id="profileAptitudes">Aptitudes: Problem Solving</p>
+            </div>
+        </div>
+    </h2>
+
+    <div class="nav-buttons">
+        <div class="card">
+            <a href="#" onclick="showAssignments()" class="image-container">
+                <img src="{% static 'images/assignment.png' %}" alt="Assignments" class="nav-icon" />
+            </a>
+            <div class="button-box">
+                <button onclick="showAssignments()" >Assignments</button>
+            </div>
+        </div>
+        <div class="card">
+            <a href="#" onclick="showCourses()" class="image-container">
+                <img src="{% static 'images/courses.png' %}" alt="Courses" class="nav-icon" />
+            </a>
+            <div class="button-box">
+                <button>Courses</button>
+            </div>
+        </div>
+        <div class="card">
+            <a href="#" onclick="showAcademic()" class="image-container">
+                <img src="{% static 'images/graduate.png' %}" alt="Academic" class="nav-icon" />
+            </a>
+            <div class="button-box">
+                <button>Academics</button>
+            </div>
+        </div>
+        <div class="card">
+            <a href="#" onclick="showLearningPath()" class="image-container">
+                <img src="{% static 'images/learning-journey.png' %}" alt="Learning Path" class="nav-icon" />
+            </a>
+            <div class="button-box">
+                <button>Learning Path</button>
+            </div>
+        </div>
+        <div class="card">
+            <a href="#" onclick="showCareer()" class="image-container">
+                <img src="{% static 'images/career-path.png' %}" alt="Career Path" class="nav-icon" />
+            </a>
+            <div class="button-box">
+                <button>Career Path</button>
+            </div>
+        </div>
+        <div class="card">
+            <a href="#" onclick="showSkills()" class="image-container">
+                <img src="{% static 'images/skill.png' %}" alt="Skills" class="nav-icon" />
+            </a>
+            <div class="button-box">
+                <button>Skills</button>
+            </div>
+        </div>
+    </div>
+    
+   
+        <div id="content"></div>
+    </div>
+
+    <div id="popupOverlay" class="overlay" onclick="closePopup()"></div>
+    <div id="assignmentsPopup" class="popup">
+        <h1>LMS Portal - Enrolled Courses</h1>
+
+        <div class="section">
+            <h2>Your Enrolled Courses</h2>
+            <ul class="course-list">
+                <li>
+                    <strong>C Language</strong>
+                    <div class="progress">75% completed</div>
+                    <div class="resources">
+                        <strong>Resources:</strong>
+                        <ul>
+                            <li><a href="c-resources.pdf" target="_blank">Chapter 1: Introduction to C Programming</a></li>
+                            <li><a href="c-examples.zip" target="_blank">Chapter 2: Functions in C</a></li>
+                        </ul>
+                    </div>
+                    <button onclick="viewCourse('c-modules.html')">View Course</button>
+                    <button onclick="continueCourse('lms-1.mp4')">Continue Course</button>
+                </li>
+                <li>
+                    <strong>Python</strong>
+                    <div class="progress">60% completed</div>
+                    <div class="resources">
+                        <strong>Resources:</strong>
+                        <ul>
+                            <li><a href="python-resources.pdf" target="_blank">Chapter 2: Operators in Python</a></li>
+                            <li><a href="python-examples.zip" target="_blank">Chapter 3: Modules in Python</a></li>
+                        </ul>
+                    </div>
+                    <button onclick="viewCourse('python-modules.html')">View Course</button>
+                    <button onclick="continueCourse('lms-2.mp4')">Continue Course</button>
+                </li>
+                <!-- Add more courses as needed -->
+            </ul>
+        </div>
+
+        <div class="section notes">
+            <h2>Available Course Notes</h2>
+            <ul>
+                <li><a href="c-notes.pdf" target="_blank">C Language Notes</a></li>
+                <li><a href="python-notes.pdf" target="_blank">Python Notes</a></li>
+                <li><a href="java-notes.pdf" target="_blank">Java Notes</a></li>
+                <li><a href="flutter-notes.pdf" target="_blank">Flutter Notes</a></li>
+            </ul>
+        </div>
+
+        <button class="close-btn" onclick="closePopup()">Close</button>
+    </div>
+    
+        <script>
+            const urlParams = new URLSearchParams(window.location.search);
+            const userId = urlParams.get("id");
+            const userData = JSON.parse(
+                localStorage.getItem(`student-${userId}`),
+            );
+
+            if (userData) {
+                document.getElementById("welcomeMessage").innerText =
+                    `Welcome, ${userData.name}`;
+                document.getElementById("profileName").innerText +=
+                    userData.name;
+                document.getElementById("profileGrade").innerText +=
+                    userData.grade;
+                document.getElementById("profileInterests").innerText +=
+                    userData.interests.join(", ");
+                document.getElementById("profileAptitudes").innerText +=
+                    userData.aptitudes.join(", ");
+                userData.assessments.forEach((assessment) => {
+                    const assessmentEntry = document.createElement("p");
+                    assessmentEntry.innerText = `${assessment.date} - ${assessment.score}%`;
+                    document
+                        .getElementById("assessmentHistory")
+                        .appendChild(assessmentEntry);
+                });
+            } else {
+                // alert("User  data not found.");
+            }
+
+            function goBack() {
+                window.location.href = "home.html";
+            }
+
+            function goHome() {
+                window.location.href = "index.html";
+            }
+
+            function showAssignments() {
+                document.getElementById("content").innerHTML =
+                    "<h3>Your Assignments</h3><p>Details about assignments...</p>";
+            }
+
+            function showCourses() {
+            document.getElementById("coursePopup").classList.add("active");
+            document.getElementById("popupOverlay").classList.add("active");
+        }
+
+        // Function to close the popup
+        function closePopup() {
+            document.getElementById("coursePopup").classList.remove("active");
+            document.getElementById("popupOverlay").classList.remove("active");
+        }
+
+        // Function to display course details in a popup
+        function showCourseDetails(title, duration, grade, year) {
+            alert(`Course: ${title}\nDuration: ${duration}\nGrade: ${grade}\nYear: ${year}`);
+        }
+            function showAcademic() {
+                document.getElementById("content").innerHTML =
+                    "<h3>Academic Information</h3><p>Details about academic performance...</p>";
+            }
+
+            function showLearningPath() {
+                document.getElementById("content").innerHTML =
+                    "<h3>Your Learning Path</h3><p>Details about your learning path...</p>";
+            }
+
+            function showCareer() {
+                document.getElementById("content").innerHTML =
+                    "<h3>Career Path</h3><p>Details about career options...</p>";
+            }
+
+            function showSkills() {
+                document.getElementById("content").innerHTML =
+                    "<h3>Your Skills</h3><p>Details about your skills...</p>";
+            }
+             // Show the assignments popup
+        function showAssignments() {
+            document.getElementById("assignmentsPopup").classList.add("active");
+            document.getElementById("popupOverlay").classList.add("active");
+        }
+
+        // Close the popup
+        function closePopup() {
+            document.getElementById("assignmentsPopup").classList.remove("active");
+            document.getElementById("popupOverlay").classList.remove("active");
+        }
+
+        // Navigate to course
+        function viewCourse(course) {
+            window.location.href = course;
+        }
+
+        // Continue course
+        function continueCourse(video) {
+            window.location.href = video;
+        }
+        </script>
+    </body>
+</html>

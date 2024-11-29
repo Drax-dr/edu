@@ -1,0 +1,256 @@
+<!doctype html>
+
+
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>EDU-Bright Path</title>
+        <style>
+            /* General Body Styles */
+            body {
+                font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+                margin: 0;
+                padding: 0;
+                color: #333;
+                overflow: hidden;
+                background-color: #e0f7fa; /* Soft light background */
+            }
+
+            /* Animated Background */
+            .background {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                /* background: linear-gradient(135deg, #ff7e5f, #feb47b); */
+                background-size: 400% 400%;
+                animation: gradient 15s ease infinite;
+                z-index: -1;
+            }
+
+            @keyframes gradient {
+                0% {
+                    background-position: 0% 50%;
+                }
+                50% {
+                    background-position: 100% 50%;
+                }
+                100% {
+                    background-position: 0% 50%;
+                }
+            }
+
+            /* Header Styles */
+            header {
+                background-color: rgba(0, 150, 136, 0.9);
+                color: white;
+                padding: 15px 20px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                position: sticky;
+                top: 0;
+                z-index: 1000;
+            }
+
+            nav ul {
+                list-style: none;
+                padding: 0;
+                display: flex;
+            }
+
+            nav ul li {
+                margin: 0 15px;
+            }
+
+            nav ul li a {
+                color: white;
+                text-decoration: none;
+                font-weight: bold;
+                transition: color 0.3s;
+            }
+
+            nav ul li a:hover {
+                color: #ffeb3b;
+            }
+
+            /* Hero Section Styles */
+            .hero {
+                text-align: center;
+                padding: 40px 20px;
+                /* background: rgba(255, 255, 255, 0.95); */
+                background-color: #e0f7fa;
+                border-radius: 15px;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+                margin: 60px auto;
+                max-width: 700px; /* Increased width */
+                position: relative;
+                overflow: hidden;
+                border: 5px solid transparent;
+                background-clip: padding-box;
+                z-index: 1;
+            }
+
+            /* Unique Edges Design */
+            .hero::before {
+                content: "";
+                position: absolute;
+                top: -15px;
+                left: -15px;
+                right: -15px;
+                bottom: -15px;
+                border-radius: 20px;
+                /* background: linear-gradient(
+                    45deg,
+                    rgba(255, 105, 180, 0.5),
+                    rgba(255, 165, 0, 0.5)
+                ); */
+                z-index: -1;
+                filter: blur(15px);
+                animation: pulse 6s infinite;
+            }
+
+            @keyframes pulse {
+                0%,
+                100% {
+                    transform: scale(1);
+                }
+                50% {
+                    transform: scale(1.05);
+                }
+            }
+
+            /* Hero Content Styles */
+            .hero h1 {
+                font-size: 2.4em; /* Slightly larger */
+                margin-bottom: 15px;
+                color: #00796b;
+            }
+
+            .hero h2 {
+                font-size: 1.5em; /* Adjusted */
+                margin-bottom: 25px;
+                color: #555;
+            }
+
+            /* Character Image Styles */
+            .character-image {
+                display: flex;
+                justify-content: center;
+                gap: 20px; /* Increased gap for better spacing */
+                margin-bottom: 20px;
+            }
+
+            .role-image {
+                width: 120px; /* Adjusted size */
+                height: 120px; /* Adjusted size */
+                border-radius: 15px; /* Unique shape */
+                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+                transition: transform 0.3s;
+            }
+
+            .role-image:hover {
+                transform: scale(1.1);
+            }
+
+            /* Role Options Styles */
+            .role-options {
+                display: flex;
+                justify-content: center;
+                margin-bottom: 30px;
+                gap: 15px; /* Increased gap */
+            }
+
+            .role-option {
+                background-color: #009688;
+                color: white;
+                padding: 12px 24px; /* Adjusted padding */
+                border-radius: 12px; /* Adjusted border-radius */
+                text-decoration: none;
+                font-weight: bold;
+                transition:
+                    background 0.3s,
+                    transform 0.2s;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            }
+
+            .role-option:hover {
+                background-color: #00796b;
+                transform: scale(1.05);
+                box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+            }
+
+            /* Message Styles */
+            .message {
+                margin-top: 20px;
+            }
+
+            .message h1 {
+                font-size: 1.6em; /* Adjusted size */
+                margin-bottom: 10px;
+                color: #009688;
+            }
+
+            .message p {
+                font-size: 1.1em; /* Adjusted size */
+                margin-bottom: 15px;
+                color: #555;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="background"></div>
+        <header>
+            <nav>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </nav>
+            <button class="settings-button">Settings, Support</button>
+        </header>
+        <main>
+            <section class="hero">
+                <h1>Welcome to EDU-Bright Path!</h1>
+                <h2>
+                    Are you a student, parent, or educator? Please pick your
+                    role.
+                </h2>
+                <div class="character-image">
+                    {% load static %}
+
+                    <img
+                        src="{% static 'images/student.jpeg' %}"
+                        alt="Student"
+                        class="role-image"
+                    />
+                    <img
+                        src="{% static 'images/parent.jpeg' %}"
+                        alt="Parent"
+                        class="role-image"
+                    />
+                    <img
+                        src="{% static 'images/educator.jpeg' %}"
+                        alt="Teacher"
+                        class="role-image"
+                    />
+                </div>
+                <div class="role-options">
+                    <a href="register/student/" class="role-option">STUDENT</a>
+                    <a href="register/parent/" class="role-option">PARENT</a>
+                    <a href="register/lecturer/" class="role-option">TEACHER</a>
+                </div>
+                <div class="message">
+                    <h1>EDU-Bright Path</h1>
+                    <p>
+                        "Innovative Learning Ventures: Guiding Students to Their
+                        Future"
+                    </p>
+                </div>
+            </section>
+        </main>
+    </body>
+</html>

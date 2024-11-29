@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Educator Dashboard</title>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+    </head>
+    <body>
+        <div class="container">
+            <header class="header">
+                <button class="back-btn" onclick="goBack()">Back</button>
+                <p id="welcomeMessage"></p>
+                <a href="{% url 'home' %}" class="home-btn" onclick="goHome()">Home</a>
+            </header>
+            <div class="profile-section">
+                <img
+                    src="educator_final.jpg"
+                    alt="Profile"
+                    class="profile-pic"
+                />
+                <div class="profile-info">
+                    <h2>Profile</h2>
+                    <p id="profileName">Name: Uday Kiran</p>
+                    <p id="profileTitle">Title: Professor</p>
+                    <p id="profileDepartment">Department: Computer Science & Engineering</p>
+                    <h3>Student Information</h3>
+                    <div id="studentInfo"></div>
+                </div>
+            </div>
+            <div class="nav-buttons">
+                <button onclick="showStudentProgress()">
+                    Student Progress
+                </button>
+                <button onclick="showCourses()">Courses</button>
+                <button onclick="showSkills()">Skills</button>
+                <button onclick="showInsights()">Insights</button>
+            </div>
+            <div id="content"></div>
+        </div>
+        <script>
+            const urlParams = new URLSearchParams(window.location.search);
+            const userId = urlParams.get("id");
+            const userData = JSON.parse(
+                localStorage.getItem(`educator-${userId}`),
+            );
+
+            if (userData) {
+                document.getElementById("welcomeMessage").innerText =
+                    `Welcome, ${userData.name}`;
+                document.getElementById("profileName").innerText +=
+                    userData.name;
+                document.getElementById("profileTitle").innerText +=
+                    userData.title;
+                document.getElementById("profileDepartment").innerText +=
+                    userData.department;
+                userData.students.forEach((student) => {
+                    const studentEntry = document.createElement("p");
+                    studentEntry.innerText = `${student.name} - ${student.grade}`;
+                    document
+                        .getElementById("studentInfo")
+                        .appendChild(studentEntry);
+                });
+            } else {
+                // alert("User  data not found.");
+            }
+
+            function goBack() {
+                window.location.href = "home.html";
+            }
+
+            function goHome() {
+                window.location.href = "index.html";
+            }
+
+            function showStudentProgress() {
+                document.getElementById("content").innerHTML =
+                    "<h3>Student Progress</h3><p>Details about student progress...</p>";
+            }
+
+            function showCourses() {
+                document.getElementById("content").innerHTML =
+                    "<h3>Courses</h3><p>Details about courses...</p>";
+            }
+
+            function showSkills() {
+                document.getElementById("content").innerHTML =
+                    "<h3>Skill Development</h3><p>Details about skill development...</p>";
+            }
+
+            function showInsights() {
+                document.getElementById("content").innerHTML =
+                    "<h3>Insights</h3><p>Details about insights...</p>";
+            }
+        </script>
+    </body>
+</html>

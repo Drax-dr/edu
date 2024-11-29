@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LMS Registration and Login</title>
+    <style>
+        a {
+            text-decoration: none;
+        }
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #222;
+            color: #fff;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            background: #282828;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            width: 100%;
+            max-width: 500px;
+        }
+        h1, h2, h3 {
+            margin-bottom: 20px;
+        }
+        button, .button {
+            padding: 12px 20px;
+            margin: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s;
+        }
+        button:hover, .button:hover {
+            background: #45a049;
+        }
+        .form-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+        }
+        input {
+            margin: 10px 0;
+            padding: 15px;
+            width: 90%;
+            max-width: 400px;
+            border-radius: 5px;
+            border: none;
+            font-size: 16px;
+            background: #444;
+            color: #fff;
+        }
+        input::placeholder {
+            color: #bbb;
+        }
+        input:focus {
+            outline: none;
+            border: 2px solid #4CAF50;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>REGISTER/LOGIN</h1>
+    
+    <div id="roleOptions" class="form-container" style="display: flex;">
+        <h2>Select your Choice</h2>
+        <button onclick="showForm('register')">Register</button>
+        <button onclick="showForm('login')">Login</button>
+        <!-- <a class="button" href="{% url 'lecturer_login' %}">Login</a> -->
+    </div>
+
+
+    
+    <div id="registrationForm" class="form-container">
+        <h3>Register as <span id="roleDisplay">Educator</span></h3>
+        <form method="POST" action="{% url 'lecturer_register' %}" target="_blank">
+        <div id="educatorForm" style="display: flex; flex-wrap: wrap; gap: 10px;">
+            <input type="file" id="progile" placeholder="Profile Pic" required />
+            <input type="text" id="name" placeholder="Full Name" required />
+            <input type="text" id="Id" placeholder="ID" required />
+            <input type="email" id="email" placeholder="Email" required />
+            <label>Department</label>
+            <select name="dept" id="dept">
+                <option value="cse">Computer Science & Enfineering</option>
+                <option value="ece">Electronics & Communication Engineering </option>
+                <option value="mech">Mechanical Engineering</option>
+                <option value="eee">Electrical & Electronics Engineering.</option>
+              </select>
+            <input type="password" id="password" placeholder="Password" required />
+        </div>
+        <div id="parentEducatorForm" style="display: flex; flex-wrap: wrap; gap: 10px;">
+            <input type="text" id="parentEducatorId" placeholder="Student ID" required="">
+            <input type="password" id="parentEducatorPassword" placeholder="Password" required="">
+        </div>
+        <button type="submit" value="submit">Register</button>
+        <a class="button" href="{% url 'home' %}">Cancel</a>
+    </form>
+    </div>
+
+    <div id="loginForm" class="form-container">
+        <h3>Login as <span id="roleDisplayLogin">Educator</span></h3>
+        <form method="POST" action="{% url 'lecturer_login' %}" target="_blank">
+            {% csrf_token %}
+        <input type="text" id="loginId" placeholder="ID" required="">
+        <input type="password" id="loginPassword" placeholder="Password" required="">
+        <a class="button" href="/dashboard/lecturer">Login</a>
+        <button onclick="cancel()">Cancel</button>
+    </form>
+    </div>
+</div>
+
+<script>
+    let selectedRole = '';
+
+    // Simulate getting the role (you can modify this to get from URL or storage)
+    const urlParams = new URLSearchParams(window.location.search);
+    selectedRole = urlParams.get('role') || 'educator'; // Default to student if not found
+
+    document.getElementById('roleDisplay').innerText = selectedRole.charAt(0).toUpperCase() + selectedRole.slice(1);
+    document.getElementById('roleDisplayLogin').innerText = selectedRole.charAt(0).toUpperCase() + selectedRole.slice(1);
+    
+    document.getElementById('roleOptions').style.display = 'flex'; // Show role options
+
+    function showForm(formType) {
+        if (formType === 'register') {
+            if (selectedRole === 'educator') {
+                document.getElementById('educatorForm').style.display = 'flex';
+                document.getElementById('parentEducatorForm').style.display = 'none';
+            } else {
+                document.getElementById('educatorForm').style.display = 'none';
+                document.getElementById('parentEducatorForm').style.display = 'flex';
+            }
+            document.getElementById('registrationForm').style.display = 'flex';
+            document.getElementById('loginForm').style.display = 'none';
+        } else {
+            document.getElementById('loginForm').style.display = 'flex';
+            document.getElementById('registrationForm').style.display = 'none';
+        }
+    }
+
+    function cancel() {
+        document.getElementById('roleOptions').style.display = 'none';
+        document.getElementById('registrationForm').style.display = 'none';
+        document.getElementById('loginForm').style.display = 'none';
+        window.location.href = 'home.html'; // Navigate back to home or a different page
+    }
+
+    function registerUser() {
+        if (selectedRole === 'student') {
+            const name = document.getElementById('name').value;
+            const studentId = document.getElementById('studentId').value;
+            const grade = document.getElementById('grade').value;
+            const interests = document.getElementById('interests').value.split(',').map(item => item.trim());
+            const aptitudes = document.getElementById('aptitudes').value.split(',').map(item => item.trim());
+            const password = document.getElementById('password').value;
+
+            const userData = {
+                name,
+                id: studentId,
+                grade,
+                interests,
+                aptitudes,
+                password,
+                assessments: [] // Initialize with empty assessment history
+            };
+
+            localStorage.setItem(`student-${studentId}`, JSON.stringify(userData));
+            alert(`Student registered successfully!`);
+            navigateToDashboard(studentId);
+        } else {
+            const studentId = document.getElementById('parentEducatorId').value;
+            const password = document.getElementById('parentEducatorPassword').value;
+
+            const studentData = JSON.parse(localStorage.getItem(`student-${studentId}`));
+
+            if (!studentData) {
+                alert('Student not found. Please register the student first.');
+                return;
+            }
+
+            const userData = {
+                name: studentData.name,
+                id: studentId,
+                password,
+                grade: studentData.grade,
+                interests: studentData.interests,
+                aptitudes: studentData.aptitudes,
+                assessments: studentData.assessments // Copy assessment history
+            };
+
+            localStorage.setItem(`${selectedRole}-${studentId}`, JSON.stringify(userData));
+            alert(`${selectedRole.charAt(0).toUpperCase() + selectedRole.slice(1)} registered successfully!`);
+            navigateToDashboard(studentId);
+        }
+    }
+
+    function loginUser() {
+        const loginId = document.getElementById('loginId').value;
+        const loginPassword = document.getElementById('loginPassword').value;
+
+        const storedUserData = localStorage.getItem(`${selectedRole}-${loginId}`);
+        if (storedUserData) {
+            const userData = JSON.parse(storedUserData);
+            if (userData.password === loginPassword) {
+                alert(`${selectedRole.charAt(0).toUpperCase() + selectedRole.slice(1)} logged in successfully!`);
+                navigateToDashboard(loginId);
+            } else {
+                alert('Incorrect password. Please try again.');
+            }
+        } else {
+            alert('User not found. Please register first.');
+        }
+    }
+
+    function navigateToDashboard(userId) {
+        if (selectedRole === 'student') {
+            window.location.href = `student-dashboard.html?id=${userId}`;
+        } else if (selectedRole === 'parent') {
+            window.location.href = `parent-dashboard.html?id=${userId}`;
+        } else if (selectedRole === 'teacher') {
+            window.location.href = `educator-dashboard.html?id=${userId}`;
+        }
+    }
+</script>
+
+
+
+</body></html>

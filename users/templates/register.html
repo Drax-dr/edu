@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LMS Registration and Login</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Link to the updated CSS -->
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to bottom right, #f3f4f6, #e2e8f0);
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 0.5s ease;
+        }
+        h1 {
+            text-align: center;
+            color: #4CAF50;
+            margin-bottom: 20px;
+        }
+        h2 {
+            color: #333;
+        }
+        .form-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+        }
+        input {
+            margin: 10px 0;
+            padding: 15px;
+            width: 90%;
+            max-width: 400px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            transition: border 0.3s;
+        }
+        input:focus {
+            outline: none;
+            border: 2px solid #4CAF50;
+        }
+        button {
+            padding: 12px 20px;
+            margin: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s, transform 0.2s;
+        }
+        button:hover {
+            background: #45a049;
+            transform: scale(1.05);
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>REGISTER/LOGIN</h1>
+     
+    <div id="roleOptions" class="form-container">
+        <h2>Select your Role</h2>
+        <button onclick="showForm('register')">Register</button>
+        <button href="login/student">Login</button>
+    </div>
+     
+    <div id="registrationForm" class="form-container">
+        <h3>Register as <span id="roleDisplay"></span></h3>
+        <div id="studentForm">
+            <input type="text" id="name" placeholder="Full Name" required>
+            <input type="text" id="studentId" placeholder="Student ID" required>
+            <input type="text" id="grade" placeholder="Grade Level" required>
+            <input type="text" id="interests" placeholder="Interests (comma separated)" required>
+            <input type="text" id="aptitudes" placeholder="Aptitudes (comma separated)" required>
+            <input type="password" id="password" placeholder="Password" required>
+        </div>
+        <div id="parentEducatorForm" style="display: none;">
+            <input type="text" id="parentEducatorId" placeholder="Student ID" required>
+            <input type="password" id="parentEducatorPassword" placeholder="Password" required>
+        </div>
+        <button onclick="registerUser ()">Register</button>
+        <button onclick="cancel()">Cancel</button>
+    </div>
+ 
+    <div id="loginForm" class="form-container">
+        <h3>Login as <span id="roleDisplayLogin"></span></h3>
+        <input type="text" id="loginId" placeholder="ID" required>
+        <input type="password" id="loginPassword" placeholder="Password" required>
+        <button onclick="loginUser ()">Login</button>
+        <button onclick="cancel()">Cancel</button>
+    </div>
+</div>
+
+<script>
+    let selectedRole = '';
+
+    // Simulate getting the role (you can modify this to get from URL or storage)
+    const urlParams = new URLSearchParams(window.location.search);
+    selectedRole = urlParams.get('role') || 'student'; // Default to student if not found
+
+    document.getElementById('roleDisplay').innerText = selectedRole.charAt(0).toUpperCase() + selectedRole.slice(1);
+    document.getElementById('roleDisplayLogin').innerText = selectedRole.charAt(0).toUpperCase() + selectedRole.slice (1);
+
+    document.getElementById('roleOptions').style.display = 'flex'; // Show role options
+
+    function showForm(formType) {
+        if (formType === 'register') {
+            if (selectedRole === 'student') {
+                document.getElementById('studentForm').style.display = 'flex';
+                document.getElementById('parentEducatorForm').style.display = 'none';
+            } else {
+                document.getElementById('studentForm').style.display = 'none';
+                document.getElementById('parentEducatorForm').style.display = 'flex';
+            }
+            document.getElementById('registrationForm').style.display = 'flex';
+            document.getElementById('loginForm').style.display = 'none';
+        } else {
+            document.getElementById('loginForm').style.display = 'flex';
+            document.getElementById('registrationForm').style.display = 'none';
+        }
+    }
+
+    function cancel() {
+        document.getElementById('roleOptions').style.display = 'none';
+        document.getElementById('registrationForm').style.display = 'none';
+        document.getElementById('loginForm').style.display = 'none';
+        window.location.href = 'home.html'; // Navigate back to home or a different page
+    }
+
+    function registerUser () {
+        if (selectedRole === 'student') {
+            const name = document.getElementById('name').value;
+            const studentId = document.getElementById('studentId').value;
+            const grade = document.getElementById('grade').value;
+            const interests = document.getElementById('interests').value.split(',').map(item => item.trim());
+            const aptitudes = document.getElementById('aptitudes').value.split(',').map(item => item.trim());
+            const password = document.getElementById('password').value;
+
+            const userData = {
+                name,
+                id: studentId,
+                grade,
+                interests,
+                aptitudes,
+                password,
+                assessments: [] // Initialize with empty assessment history
+            };
+
+            localStorage.setItem(`student-${studentId}`, JSON.stringify(userData));
+            alert(`Student registered successfully!`);
+            navigateToDashboard(studentId);
+        } else {
+            const studentId = document.getElementById('parentEducatorId').value;
+            const password = document.getElementById('parentEducatorPassword').value;
+
+            const studentData = JSON.parse(localStorage.getItem(`student-${studentId}`));
+
+            if (!studentData) {
+                alert('Student not found. Please register the student first.');
+                return;
+            }
+
+            const userData = {
+                name: studentData.name,
+                id: studentId,
+                password,
+                grade: studentData.grade,
+                interests: studentData.interests,
+                aptitudes: studentData.aptitudes,
+                assessments: studentData.assessments // Copy assessment history
+            };
+
+            localStorage.setItem(`${selectedRole}-${studentId}`, JSON.stringify(userData));
+            alert(`${selectedRole.charAt(0).toUpperCase() + selectedRole.slice(1)} registered successfully!`);
+            navigateToDashboard(studentId);
+        }
+    }
+
+    function loginUser() {
+        const loginId = document.getElementById('loginId').value;
+        const loginPassword = document.getElementById('loginPassword').value;
+
+        const storedUserData = localStorage.getItem(`${selectedRole}-${loginId}`);
+        if (storedUserData) {
+            const userData = JSON.parse(storedUserData);
+            if (userData.password === loginPassword) {
+                alert(`${selectedRole.charAt(0).toUpperCase() + selectedRole.slice(1)} logged in successfully!`);
+                navigateToDashboard(loginId);
+            } else {
+                alert('Incorrect password. Please try again.');
+            }
+        } else {
+            alert('User    not found. Please register first.');
+        }
+    }
+
+    function navigateToDashboard(userId) {
+        if (selectedRole === 'student') {
+            window.location.href = `student-dashboard.html?id=${userId}`;
+        } else if (selectedRole === 'parent') {
+            window.location.href = `parent-dashboard.html?id=${userId}`;
+        } else if (selectedRole === 'teacher') {
+            window.location.href = `educator-dashboard.html?id=${userId}`; // Corrected the URL
+        }
+    }
+</script>
+</body>
+</html>

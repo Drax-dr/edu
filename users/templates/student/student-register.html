@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Student Registration</title>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+    </head>
+    <body>
+        <div class="container">
+            <h2>Student Registration</h2>
+            <form>
+                <label for="studentName">Name:</label>
+                <input type="text" id="studentName" required /><br />
+
+                <label for="studentPassword">Password:</label>
+                <input type="password" id="studentPassword" required /><br />
+
+                <button type="button" onclick="registerStudent()">
+                    Register
+                </button>
+            </form>
+        </div>
+
+        <script>
+            function generateStudentId() {
+                const prefix = "STU";
+                const uniqueId = Math.floor(Math.random() * 10000);
+                return prefix + uniqueId;
+            }
+
+            function registerStudent() {
+                const studentName =
+                    document.getElementById("studentName").value;
+                const studentId = generateStudentId();
+                const studentPassword =
+                    document.getElementById("studentPassword").value;
+
+                localStorage.setItem(
+                    studentId,
+                    JSON.stringify({
+                        name: studentName,
+                        password: studentPassword,
+                    }),
+                );
+
+                alert(
+                    "Registration successful! Your student ID is " + studentId,
+                );
+                window.location.href = "student-login.html";
+            }
+        </script>
+    </body>
+</html>

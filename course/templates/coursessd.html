@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Path</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #181818; /* Dark background */
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden; /* Prevent scroll */
+            color: #fff; /* White text color */
+            position: relative; /* Position relative for button placement */
+        }
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            flex-direction: column; /* Stack boxes vertically initially */
+            align-items: center; /* Center items */
+        }
+        .row {
+            display: flex; /* Row for horizontal alignment of boxes */
+            justify-content: center; /* Center boxes horizontally */
+            margin: 10px 0; /* Space between rows */
+        }
+        .box {
+            background: #282828; /* Darker box background */
+            padding: 20px; /* Adjusted padding */
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s ease;
+            text-align: center; /* Center text inside boxes */
+            margin: 0 10px; /* Space between boxes */
+            flex: 1; /* Flexible sizing */
+            min-width: 180px; /* Minimum width for boxes */
+            max-width: 220px; /* Maximum width for boxes */
+            height: auto; /* Auto height based on content */
+            display: flex; /* Use flex for vertical centering */
+            flex-direction: column; /* Allow vertical stacking of content */
+            justify-content: center; /* Center items vertically */
+            cursor: pointer; /* Pointer cursor on hover */
+        }
+        h2 {
+            color: #4CAF50; /* Green color for headings */
+            margin-bottom: 10px; /* Space below heading */
+            font-size: 20px; /* Decreased font size for headings */
+        }
+        .item {
+            margin: 5px 0; /* Reduced space between items */
+            padding: 15px; /* Adjusted padding for items */
+            background: #444; /* Dark background for items */
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
+            font-size: 16px; /* Decreased font size for items */
+            flex: 1; /* Take up available space */
+            display: flex;
+            justify-content: center; /* Center text */
+            align-items: center; /* Center text vertically */
+        }
+        .item:hover {
+            background: #555; /* Darker on hover */
+        }
+        #domainsBox, #coursesBox, #detailsBox, #additionalDetailsBox {
+            flex: 2; /* Increased size for last two boxes */
+        }
+        /* Specific styles for detail boxes */
+        #detailsBox, #additionalDetailsBox {
+            flex: 3; /* Make these boxes larger */
+            min-width: 300px; /* Minimum width for detail boxes */
+            max-width: 400px; /* Maximum width for detail boxes */
+            height: auto; /* Auto height based on content */
+        }
+        .hidden {
+            display: none; /* Hidden by default */
+        }
+        .back-button {
+            position: absolute; /* Position in the corner */
+            top: 20px; /* Distance from the top */
+            left: 20px; /* Distance from the left */
+            padding: 10px 15px; /* Padding inside the button */
+            background: #4CAF50; /* Green background */
+            color: white; /* White text */
+            border: none; /* No border */
+            border-radius: 5px; /* Rounded corners */
+            cursor: pointer; /* Pointer cursor */
+            transition: background 0.3s; /* Transition for hover effect */
+            z-index: 1000; /* Make sure it appears above other elements */
+        }
+        .back-button:hover {
+            background: #45a049; /* Darker green on hover */
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Initial Row with Job Roles Box -->
+    <div class="row" id="jobRolesRow">
+        <div class="box" id="jobRolesBox">
+            <h2>Select Your Career Path</h2>
+            <div class="item" onclick="showDomains('fullStackDeveloper')">Full Stack Developer</div>
+            <div class="item" onclick="showDomains('softwareDeveloper')">Software Developer</div>
+            <div class="item" onclick="showDomains('dataAnalyst')">Data Analyst</div>
+            <div class="item" onclick="showDomains('gameDeveloper')">Game Developer</div>
+            <div class="item" onclick="showDomains('testingEngineer')">Testing Engineer</div>
+        </div>
+    </div>
+
+    <!-- Row for Domains Box -->
+    <div class="row hidden" id="domainsRow">
+        <div class="box" id="domainsBox">
+            <h2>Select Domain</h2>
+            <div class="item" onclick="showCourses('webDevelopment')">Web Development</div>
+            <div class="item" onclick="showCourses('softwareEngineering')">Software Engineering</div>
+            <div class="item" onclick="showCourses('dataScience')">Data Science</div>
+            <div class="item" onclick="showCourses('gameDev')">Game Development</div>
+        </div>
+        <div class="box hidden" id="coursesBox">
+            <h2>Courses to Learn:</h2>
+            <div id="courseList"></div>
+        </div>
+    </div>
+
+    <!-- Row for Details Box -->
+    <div class="row hidden" id="coursesDetailsRow">
+        <div class="box hidden" id="detailsBox">
+            <h2>Course Details:</h2>
+            <div id="courseDetails"></div>
+        </div>
+        <div class="box hidden" id="additionalDetailsBox">
+            <h2>Additional Information:</h2>
+            <div id="additionalDetails"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Back Button -->
+<button class="back-button" id="backButton" onclick="goBack()">Back</button>
+
+<script>
+    function goBack() {
+        // Redirect to the student dashboard page
+        window.location.href = 'student-dashboard.html'; // Replace with your actual dashboard URL
+    }
+
+    // Show domains when a job role is clicked
+    function showDomains(role) {
+        document.getElementById('jobRolesBox').classList.add('hidden'); // Hide job roles box
+        document.getElementById('domainsRow').classList.remove('hidden'); // Show domains box
+    }
+
+    // Show courses when a domain is clicked
+    function showCourses(domain) {
+        const courseList = document.getElementById('courseList');
+        courseList.innerHTML = ''; // Clear previous courses
+
+        let courses = [];
+        switch(domain) {
+            case 'webDevelopment':
+                courses = ['HTML', 'CSS', 'JavaScript', 'NodeJS', 'ExpressJS', 'MongoDB', 'ReactJS'];
+                break;
+            case 'softwareEngineering':
+                courses = ['Java', 'C#', 'Python', 'Data Structures', 'Algorithms'];
+                break;
+            case 'dataScience':
+                courses = ['Excel', 'SQL', 'Python', 'Data Visualization', 'Machine Learning'];
+                break;
+            case 'gameDev':
+                courses = ['C++', 'Unity', 'Game Design', 'Physics in Games'];
+                break;
+            default:
+                courses = [];
+        }
+
+        courses.forEach(course => {
+            const div = document.createElement('div');
+            div.className = 'item';
+            div.textContent = course;
+            div.onclick = function() { showDetails(course); };
+            courseList.appendChild(div);
+        });
+
+        // Show courses details row
+        document.getElementById('coursesBox').classList.remove('hidden');
+        document.getElementById('coursesDetailsRow').classList.remove('hidden'); // Show course details row
+        document.getElementById('detailsBox').classList.add('hidden'); // Hide details box initially
+        document.getElementById('additionalDetailsBox').classList.add('hidden'); // Hide additional details initially
+    }
+
+    // Show details when a course is clicked
+    function showDetails(course) {
+        const courseDetails = document.getElementById('courseDetails');
+        courseDetails.innerHTML = `Details about ${course}: <br> This course covers...`; // Add actual details here
+        document.getElementById('detailsBox').classList.remove('hidden'); // Show details box
+
+        // Show additional details for demonstration
+        const additionalDetails = document.getElementById('additionalDetails');
+        additionalDetails.innerHTML = `Additional information about ${course}.`; // Add actual additional info here
+        document.getElementById('additionalDetailsBox').classList.remove('hidden'); // Show additional details box
+    }
+</script>
+
+</body>
+</html>
